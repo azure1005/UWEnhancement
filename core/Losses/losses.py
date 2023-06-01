@@ -1,8 +1,9 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from UW.core.Losses.builder import LOSSES
-from UW.core.Losses.utils import weighted_loss
-
+#from UW.core.Losses.builder import LOSSES
+#from UW.core.Losses.utils import weighted_loss
+from core.Losses.builder import LOSSES
+from core.Losses.utils import weighted_loss
 
 @weighted_loss
 def l1_loss(pred, target):

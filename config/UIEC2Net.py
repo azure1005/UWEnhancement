@@ -6,12 +6,14 @@ model = dict(type='UIEC2Net',
              get_parameter=True)
 dataset_type = 'AlignedDataset'
 
-data_root_train = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Train/'                  # data root, default = DATA
-data_root_test = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Test/'
+#data_root_train = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Train/'                  # data root, default = DATA
+#data_root_test = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Test/'
+data_root_train = '/home/yanjiushi/gitRepo/HZC/UWEnhancement/DATA/Train/'                  # data root, default = DATA
+data_root_test = '/home/yanjiushi/gitRepo/HZC/UWEnhancement/DATA/Test/'
 train_ann_file_path = 'train.txt'        # txt file for loading images, default = train.txt
 val_ann_file_path = 'test_time.txt'          # txt file for loading images (validate during training process), default = test.txt
-test_ann_file_path = 'test_time.txt'         # txt file for loading images, default = test.txt
-
+#test_ann_file_path = 'test_time.txt'         # txt file for loading images, default = test.txt
+test_ann_file_path = 'test.txt'         # txt file for loading images, default = test.txt
 
 img_norm_cfg = dict(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
 train_pipeline = [dict(type='LoadImageFromFile', gt_type='color', get_gt=True),
@@ -45,7 +47,8 @@ data = dict(
     test=dict(                                          # load data in test process
         type=dataset_type,
         ann_file=data_root_test + test_ann_file_path,
-        img_prefix=data_root_test + 'test_time/',
+        #img_prefix=data_root_test + 'test_time/',
+        img_prefix=data_root_test + 'test/',
         gt_prefix=data_root_test + 'gt/',
         pipeline=test_pipeling,
         test_mode=True))

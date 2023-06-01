@@ -23,6 +23,8 @@ class Resize(object):
         if ratio > 0 and keep_ratio is True:
             self.ratio = ratio
             self.do_ratio = True
+        else:
+            self.do_ratio = False
         self.keep_ratio = keep_ratio
 
     def __call__(self, results):

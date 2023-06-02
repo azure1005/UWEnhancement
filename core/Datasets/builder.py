@@ -45,8 +45,9 @@ def build_dataloader(dataset,
         dataset,
         batch_size=batch_size,
         shuffle=shuffle,
-        num_workers=num_workers,
-        **kwargs)
+        num_workers=num_workers)
+        # **kwargs)
+
 
     return data_loader
 

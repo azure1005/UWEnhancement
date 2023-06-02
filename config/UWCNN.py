@@ -5,11 +5,14 @@ test_name = 'Test'
 model = dict(type='UWCNN',
              get_parameter=True)
 dataset_type = 'AlignedDataset'
-data_root_train = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Train/'                  # data root, default = DATA
-data_root_test = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Test/'
+#LW# data_root_train = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Train/'                  # data root, default = DATA
+data_root_train = '/home/lw/Works_DL_linux/UWE/UW/DATA/Train/'
+#LW# data_root_test = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Test/'
+data_root_test = '/home/lw/Works_DL_linux/UWE/UW/DATA/Test/'
 train_ann_file_path = 'train.txt'        # txt file for loading images, default = train.txt
-val_ann_file_path = 'EUVP.txt'          # txt file for loading images (validate during training process), default = test.txt
-test_ann_file_path = 'EUVP.txt'         # txt file for loading images, default = test.txt
+#LW# val_ann_file_path = 'EUVP.txt'          # txt file for loading images (validate during training process), default = test.txt
+#LW# test_ann_file_path = 'EUVP.txt'         # txt file for loading images, default = test.txt
+test_ann_file_path = 'test.txt'         # txt file for loading images, default = test.txt
 
 
 img_norm_cfg = dict(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
@@ -42,13 +45,14 @@ data = dict(
     val=dict(                                           # load data in validate process
         type=dataset_type,
         ann_file=data_root_test + test_ann_file_path,
-        img_prefix=data_root_test + 'EUVP/',
+        #LW# img_prefix=data_root_test + 'EUVP/',
         gt_prefix=data_root_test + 'gt/',
         pipeline=test_pipeling),
     test=dict(                                          # load data in test process
         type=dataset_type,
         ann_file=data_root_test + test_ann_file_path,
-        img_prefix=data_root_test + 'EUVP/',
+#LW#        img_prefix=data_root_test + 'EUVP/',
+        img_prefix=data_root_test + 'test/',
         gt_prefix=data_root_test + 'gt/',
         pipeline=test_pipeling,
         test_mode=True))
@@ -80,7 +84,8 @@ log_config = dict(
         dict(type='VisdomLoggerHook')
     ])
 
-total_epoch = 1000
+#LW#  total_epoch = 1000
+total_epoch = 10
 total_iters = None                      # epoch before iters,
 work_dir = './checkpoints/UWCNN/1'      #
 load_from = None                        # only load network parameters

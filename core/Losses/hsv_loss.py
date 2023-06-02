@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 import math
-from UW.core.Losses.builder import LOSSES
-
+# from UW.core.Losses.builder import LOSSES
+from core.Losses.builder import LOSSES
 
 @LOSSES.register_module()
 class HSVLoss(nn.Module):

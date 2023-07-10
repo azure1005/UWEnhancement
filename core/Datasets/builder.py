@@ -5,12 +5,12 @@ from torch.utils.data import DataLoader
 DATASETS = Registry('dataset')
 PIPELINES = Registry('pipeline')
 
-
+#加载数据集
 def build_dataset(cfg, default_args=None):
     dataset = build_from_cfg(cfg, DATASETS, default_args)
     return dataset
 
-
+#加载pipeline
 def build_dataloader(dataset,
                      samples_per_gpu,
                      workers_per_gpu,

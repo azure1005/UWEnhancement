@@ -5,11 +5,12 @@ from torch import nn
 NETWORK = Registry('network')
 BACKBONES = Registry('backbone')
 
+#build model
 def build(cfg, registry, default_args=None):
     """Build a module.
 
     Args:
-        cfg (dict, list[dict]): The config of modules, is is either a dict
+        cfg (dict, list[dict]): The config of modules, is is either a dict-+
             or a list of configs.
         registry (:obj:`Registry`): A registry the module belongs to.
         default_args (dict, optional): Default arguments to build the module.
@@ -26,6 +27,7 @@ def build(cfg, registry, default_args=None):
     else:
         return build_from_cfg(cfg, registry, default_args)
 
+#新建网络
 def build_network(cfg, train_cfg=None, test_cfg=None):
     """Build detector."""
     return build(cfg, NETWORK, None)

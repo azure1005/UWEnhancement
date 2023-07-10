@@ -57,19 +57,22 @@ class Config:
         super(Config, self).__setattr__('_text', text)
 
     def fromfile(filename, use_predefined_variables=True):
+        #读取文件，转换为dict类型
         cfg_dict, cfg_text = Config._file2dict(filename,
                                                use_predefined_variables)
         return Config(cfg_dict, cfg_text=cfg_text, filename=filename)
 
     @staticmethod
     def _file2dict(filename, use_predefined_variables=True):
-        filename = osp.abspath(osp.expanduser(filename))
-        check_file_exist(filename)
-        fileExtname = osp.splitext(filename)[1]
+        filename = osp.abspath(osp.expanduser(filename))   #获取文件路径
+        check_file_exist(filename)   #检测文件是否存在
+        fileExtname = osp.splitext(filename)[1]  #获取文件的扩展名，必须是以下类型
         if fileExtname not in ['.py', '.json', '.yaml', '.yml']:
             raise IOError('Only py/yml/yaml/json type are supported now!')
 
+        #生成临时目录
         with tempfile.TemporaryDirectory() as temp_config_dir:
+            #生成临时文件
             temp_config_file = tempfile.NamedTemporaryFile(
                 dir=temp_config_dir, suffix=fileExtname)
             if platform.system() == 'Windows':
@@ -78,11 +81,12 @@ class Config:
             Config._substitute_predefined_vars(filename, temp_config_file.name)
             # Substitute predefined variables
             if filename.endswith('.py'):
-                temp_module_name = osp.splitext(temp_config_name)[0]
-                sys.path.insert(0, temp_config_dir)
-                Config._validate_py_syntax(filename)
-                mod = import_module(temp_module_name)
+                temp_module_name = osp.splitext(temp_config_name)[0] #临时文件名
+                sys.path.insert(0, temp_config_dir)  #临时文件目录
+                Config._validate_py_syntax(filename)  #验证python语法
+                mod = import_module(temp_module_name) #临时文件作为模块import
                 sys.path.pop(0)
+                #解析临时文件内容，转变为name:value形式
                 cfg_dict = {
                     name: value
                     for name, value in mod.__dict__.items()
@@ -108,23 +112,27 @@ class Config:
             raise SyntaxError('There are syntax errors in config '
                               f'file {filename}: {e}')
 
+    #读取config,将其中有用的信息筛选出来写到临时文件中
     @staticmethod
     def _substitute_predefined_vars(filename, temp_config_name):
-        file_dirname = osp.dirname(filename)
-        file_basename = osp.basename(filename)
-        file_basename_no_extension = osp.splitext(file_basename)[0]
-        file_extname = osp.splitext(filename)[1]
+        file_dirname = osp.dirname(filename)   #获取文件所在的目录地址
+        file_basename = osp.basename(filename)  #获取文件 UWCNN.py
+        file_basename_no_extension = osp.splitext(file_basename)[0] #文件名 UWCNN
+        file_extname = osp.splitext(filename)[1] #扩展名 .PY
         support_templates = dict(
             fileDirname=file_dirname,
             fileBasename=file_basename,
             fileBasenameNoExtension=file_basename_no_extension,
             fileExtname=file_extname)
+        #读取文件UWCNN.py
         with open(filename, 'r') as f:
             config_file = f.read()
+        #筛选信息
         for key, value in support_templates.items():
-            regexp = r'\{\{\s*' + str(key) + r'\s*\}\}'
+            regexp = r'\{\{\s*' + str(key) + r'\s*\}\}' #正则表达式
             value = value.replace('\\', '/')
             config_file = re.sub(regexp, value, config_file)
+        #写入临时文件
         with open(temp_config_name, 'w') as tmp_config_file:
             tmp_config_file.write(config_file)
 

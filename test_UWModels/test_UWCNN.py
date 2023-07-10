@@ -110,7 +110,7 @@ if __name__ == '__main__':
     t = time.time()
     for i, data in enumerate(data_loader):
         # before iter
-
+        torch.cuda.empty_cache()
         inputs = data['image']
         with torch.no_grad():
             out_rgb = model(inputs)

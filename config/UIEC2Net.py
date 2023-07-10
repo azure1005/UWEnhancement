@@ -8,8 +8,8 @@ dataset_type = 'AlignedDataset'
 
 #data_root_train = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Train/'                  # data root, default = DATA
 #data_root_test = '/home/PJLAB/wangyudong/code/wyd/UW/DATA/Test/'
-data_root_train = '/home/yanjiushi/gitRepo/HZC/UWEnhancement/DATA/Train/'                  # data root, default = DATA
-data_root_test = '/home/yanjiushi/gitRepo/HZC/UWEnhancement/DATA/Test/'
+data_root_train = '/home/yanjiushi/remoteRepo/UW/DATA/Train/'                  # data root, default = DATA
+data_root_test = '/home/yanjiushi/remoteRepo/UW/DATA/Test/'
 train_ann_file_path = 'train.txt'        # txt file for loading images, default = train.txt
 val_ann_file_path = 'test_time.txt'          # txt file for loading images (validate during training process), default = test.txt
 #test_ann_file_path = 'test_time.txt'         # txt file for loading images, default = test.txt
@@ -28,7 +28,8 @@ test_pipeling = [dict(type='LoadImageFromFile', gt_type='color', get_gt=False),
 usebytescale = False                                    # if use output min->0, max->255, default is False (copy from scipy=1.1.0)
 
 data = dict(
-    samples_per_gpu=8,                                  # batch size, default = 4
+    #samples_per_gpu=8,                                  # batch size, default = 4
+    samples_per_gpu=1,
     workers_per_gpu=0,                                  # multi process, default = 4, debug uses 0
     val_samples_per_gpu=1,                              # validate batch size, default = 1
     val_workers_per_gpu=0,                              # validate multi process, default = 4
@@ -41,6 +42,9 @@ data = dict(
     val=dict(                                           # load data in validate process
         type=dataset_type,
         ann_file=data_root_test + test_ann_file_path,
+
+
+
         img_prefix=data_root_test + 'test_time/',
         gt_prefix=data_root_test + 'gt/',
         pipeline=test_pipeling),
@@ -82,7 +86,8 @@ log_config = dict(
         dict(type='VisdomLoggerHook')
     ])
 
-total_epoch = 1000
+total_epoch = 100
+#total_epoch = 1000
 total_iters = None                      # epoch before iters,
 work_dir = './checkpoints/UIEC2Net/1'      #
 load_from = None                        # only load network parameters

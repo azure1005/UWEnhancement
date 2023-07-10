@@ -2,7 +2,7 @@ import inspect
 import warnings
 from functools import partial
 
-
+#注册器类
 class Registry:
     """A registry to map strings to classes.
 
@@ -45,6 +45,7 @@ class Registry:
         """
         return self._module_dict.get(key, None)
 
+    # 注册module
     def _register_module(self, module_class, module_name=None, force=False):
         if not inspect.isclass(module_class):
             raise TypeError('module must be a class, '
@@ -57,6 +58,7 @@ class Registry:
                            f'in {self.name}')
         self._module_dict[module_name] = module_class
 
+    #弃用函数
     def deprecated_register_module(self, cls=None, force=False):
         warnings.warn(
             'The old API of register_module(module, force=False) '
@@ -122,7 +124,7 @@ class Registry:
 
         return _register
 
-
+#根据cfg信息建立model
 def build_from_cfg(cfg, registry, default_args=None):
     """Build a module from config dict.
 
